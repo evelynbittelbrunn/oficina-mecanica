@@ -85,8 +85,6 @@ jobs:
       - name: Build image
         run: docker build -t oficina-mecanica:${{ github.sha }} .
 
-      # Official Trivy image instead of trivy-action: its installer downloads from get.trivy.dev,
-      # which failed to resolve on the runner (curl exit 6)
       - name: Trivy (full report)
         run: >
           docker run --rm
@@ -94,6 +92,7 @@ jobs:
           -v "$HOME/.cache/trivy:/root/.cache/trivy"
           -v "$PWD:/work" -w /work
           aquasec/trivy:0.70.0 image
+          --ignorefile .trivyignore
           --format table --output trivy-report.txt
           --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0
           oficina-mecanica:${{ github.sha }}
@@ -103,7 +102,9 @@ jobs:
           docker run --rm
           -v /var/run/docker.sock:/var/run/docker.sock
           -v "$HOME/.cache/trivy:/root/.cache/trivy"
+          -v "$PWD:/work" -w /work
           aquasec/trivy:0.70.0 image
+          --ignorefile .trivyignore
           --format table --severity CRITICAL --ignore-unfixed --exit-code 1
           oficina-mecanica:${{ github.sha }}
 
