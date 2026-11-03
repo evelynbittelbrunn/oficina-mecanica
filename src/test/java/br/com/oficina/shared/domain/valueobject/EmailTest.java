@@ -1,66 +1,41 @@
 package br.com.oficina.shared.domain.valueobject;
 
-import org.junit.jupiter.api.Test;
+import br.com.oficina.shared.domain.exception.ValidationException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class EmailTest {
 
-    @Test
-    void shouldCreateEmailWithValidAddress() {
-        Email email = new Email("evelyn@email.com");
-
-        assertThat(email.value()).isEqualTo("evelyn@email.com");
+    @ParameterizedTest
+    @CsvSource({
+            "evelyn@email.com, evelyn@email.com",
+            "'  evelyn@email.com  ', evelyn@email.com",
+            "EVELYN@EMAIL.COM, evelyn@email.com",
+            "nome.sobrenome+tag@empresa.com.br, nome.sobrenome+tag@empresa.com.br"
+    })
+    void shouldAcceptAndNormalizeEmail(String input, String expected) {
+        assertThat(new Email(input).value()).isEqualTo(expected);
     }
 
-    @Test
-    void shouldRemoveLeadingAndTrailingSpaces() {
-        Email email = new Email("  evelyn@email.com  ");
-
-        assertThat(email.value()).isEqualTo("evelyn@email.com");
+    @ParameterizedTest
+    @ValueSource(strings = {"evelynemail.com", "evelyn@", "evelyn@email", "@email.com", "evelyn@email.c"})
+    void shouldRejectInvalidEmail(String input) {
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> new Email(input))
+                .withMessage("E-mail inválido.");
     }
 
-    @Test
-    void shouldConvertEmailToLowercase() {
-        Email email = new Email("EVELYN@EMAIL.COM");
-
-        assertThat(email.value()).isEqualTo("evelyn@email.com");
-    }
-
-    @Test
-    void shouldRejectEmailWithoutAtSymbol() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email("evelynemail.com"));
-    }
-
-    @Test
-    void shouldRejectEmailWithoutDomain() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email("evelyn@"));
-    }
-
-    @Test
-    void shouldRejectEmailWithoutExtension() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email("evelyn@email"));
-    }
-
-    @Test
-    void shouldRejectNullEmail() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email(null));
-    }
-
-    @Test
-    void shouldRejectEmptyEmail() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email(""));
-    }
-
-    @Test
-    void shouldRejectBlankEmail() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Email("   "));
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = "   ")
+    void shouldRejectBlankEmail(String input) {
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> new Email(input))
+                .withMessage("E-mail não pode ser vazio.");
     }
 }
