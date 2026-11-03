@@ -85,8 +85,6 @@ jobs:
       - name: Build image
         run: docker build -t oficina-mecanica:${{ github.sha }} .
 
-      # Official Trivy image instead of trivy-action: its installer downloads from get.trivy.dev,
-      # which failed to resolve on the runner (curl exit 6)
       - name: Trivy (full report)
         run: >
           docker run --rm
