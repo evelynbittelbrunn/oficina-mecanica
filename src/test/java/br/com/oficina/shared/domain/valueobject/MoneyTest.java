@@ -1,83 +1,77 @@
 package br.com.oficina.shared.domain.valueobject;
 
+import br.com.oficina.shared.domain.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class MoneyTest {
 
     @Test
-    void shouldCreateMoneyWithTwoDecimalPlaces() {
-        Money money = new Money(new BigDecimal("10"));
-
-        assertThat(money.amount()).isEqualByComparingTo("10.00");
+    void shouldNormalizeToTwoDecimalPlaces() {
+        assertThat(Money.of("10").amount()).isEqualByComparingTo("10.00");
+        assertThat(Money.of("10").amount().scale()).isEqualTo(2);
     }
 
     @Test
-    void shouldAddMoneyValues() {
-        Money first = new Money(new BigDecimal("100.00"));
-        Money second = new Money(new BigDecimal("50.00"));
-
-        Money result = first.add(second);
-
-        assertThat(result.amount()).isEqualByComparingTo("150.00");
+    void shouldRoundHalfUp() {
+        assertThat(Money.of("10.005").amount()).isEqualByComparingTo("10.01");
     }
 
     @Test
-    void shouldSubtractMoneyValues() {
-        Money first = new Money(new BigDecimal("100.00"));
-        Money second = new Money(new BigDecimal("30.00"));
-
-        Money result = first.subtract(second);
-
-        assertThat(result.amount()).isEqualByComparingTo("70.00");
+    void shouldAdd() {
+        assertThat(Money.of("100.00").add(Money.of("50.25"))).isEqualTo(Money.of("150.25"));
     }
 
     @Test
-    void shouldMultiplyMoneyByQuantity() {
-        Money money = new Money(new BigDecimal("25.50"));
-
-        Money result = money.multiply(3);
-
-        assertThat(result.amount()).isEqualByComparingTo("76.50");
+    void shouldSubtract() {
+        assertThat(Money.of("100.00").subtract(Money.of("30.00"))).isEqualTo(Money.of("70.00"));
     }
 
     @Test
-    void shouldIdentifyZeroValue() {
-        Money money = new Money(BigDecimal.ZERO);
+    void shouldMultiplyByQuantity() {
+        assertThat(Money.of("25.50").multiply(3)).isEqualTo(Money.of("76.50"));
+        assertThat(Money.of("25.50").multiply(0)).isEqualTo(Money.ZERO);
+    }
 
-        assertThat(money.isZero()).isTrue();
+    @Test
+    void shouldIdentifyZero() {
+        assertThat(Money.ZERO.isZero()).isTrue();
+        assertThat(Money.of("0.01").isZero()).isFalse();
+    }
+
+    @Test
+    void shouldCompare() {
+        assertThat(Money.of("10.00")).isGreaterThan(Money.of("9.99"));
+        assertThat(Money.of("10")).isEqualByComparingTo(Money.of("10.00"));
     }
 
     @Test
     void shouldRejectNullAmount() {
-        assertThatIllegalArgumentException()
+        assertThatExceptionOfType(ValidationException.class)
                 .isThrownBy(() -> new Money(null));
     }
 
     @Test
     void shouldRejectNegativeAmount() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Money(new BigDecimal("-10.00")));
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> new Money(new BigDecimal("-0.01")))
+                .withMessage("Valor monetário não pode ser negativo.");
     }
 
     @Test
     void shouldRejectSubtractionResultingInNegativeAmount() {
-        Money first = new Money(new BigDecimal("10.00"));
-        Money second = new Money(new BigDecimal("20.00"));
-
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> first.subtract(second));
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> Money.of("10.00").subtract(Money.of("20.00")));
     }
 
     @Test
     void shouldRejectNegativeQuantity() {
-        Money money = new Money(new BigDecimal("10.00"));
-
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> money.multiply(-1));
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> Money.of("10.00").multiply(-1))
+                .withMessage("Quantidade não pode ser negativa.");
     }
 }

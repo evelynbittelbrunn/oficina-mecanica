@@ -1,0 +1,141 @@
+### Auto repair shop — full flow
+# Works with VS Code REST Client and IntelliJ HTTP Client.
+# Run the requests in order; variables capture the token, ids and order number.
+# Services and inventory items come from the sample data (db/seed) of the dev and docker profiles.
+
+@baseUrl = http://localhost:8080/api/v1
+@cpf = 529.982.247-25
+@plate = ABC1D23
+@oilChange = 11111111-0000-0000-0000-000000000001
+@alignment = 11111111-0000-0000-0000-000000000002
+@oil = 22222222-0000-0000-0000-000000000001
+@filter = 22222222-0000-0000-0000-000000000002
+
+### 1. Login (ADMIN)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@oficina.com",
+  "password": "admin123"
+}
+
+@token = {{login.response.body.token}}
+
+### 2. Create customer
+POST {{baseUrl}}/customers
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Maria da Silva",
+  "document": "{{cpf}}",
+  "email": "maria@email.com",
+  "phone": "(11) 98888-7777"
+}
+
+### 3. List active catalog services
+GET {{baseUrl}}/services?active=true
+Authorization: Bearer {{token}}
+
+### 4. List inventory items
+GET {{baseUrl}}/inventory-items
+Authorization: Bearer {{token}}
+
+### 5. Open service order (registers the vehicle if the plate is new)
+# @name order
+POST {{baseUrl}}/service-orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "customerDocument": "{{cpf}}",
+  "vehicle": { "licensePlate": "{{plate}}", "brand": "Volkswagen", "model": "Gol", "year": 2020 },
+  "services": [ { "id": "{{oilChange}}" } ],
+  "parts": [ { "id": "{{oil}}", "quantity": 4 }, { "id": "{{filter}}" } ]
+}
+
+@orderId = {{order.response.body.id}}
+@number = {{order.response.body.number}}
+
+### 6. Start diagnosis
+POST {{baseUrl}}/service-orders/{{orderId}}/start-diagnosis
+Authorization: Bearer {{token}}
+
+### 7. Add a service during the diagnosis
+POST {{baseUrl}}/service-orders/{{orderId}}/services
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "id": "{{alignment}}", "quantity": 1 }
+
+### 8. Remove the added service
+DELETE {{baseUrl}}/service-orders/{{orderId}}/services/{{alignment}}
+Authorization: Bearer {{token}}
+
+### 9. Complete diagnosis (generates and sends the quote)
+POST {{baseUrl}}/service-orders/{{orderId}}/complete-diagnosis
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "notes": "Óleo vencido e filtro saturado. Recomendada troca imediata." }
+
+### 10. Customer tracks the order (public, no token)
+GET {{baseUrl}}/public/service-orders/{{number}}?document={{cpf}}
+
+### 11a. Customer approves the quote (deducts the parts from stock)
+POST {{baseUrl}}/public/service-orders/{{number}}/quote/approve
+Content-Type: application/json
+
+{ "document": "{{cpf}}" }
+
+### 11b. (alternative) Customer rejects the quote
+POST {{baseUrl}}/public/service-orders/{{number}}/quote/reject
+Content-Type: application/json
+
+{ "document": "{{cpf}}", "reason": "Valor acima do esperado." }
+
+### 12. Finish execution
+POST {{baseUrl}}/service-orders/{{orderId}}/finish
+Authorization: Bearer {{token}}
+
+### 13. Deliver vehicle
+POST {{baseUrl}}/service-orders/{{orderId}}/deliver
+Authorization: Bearer {{token}}
+
+### 14. Order details (items, quote and history)
+GET {{baseUrl}}/service-orders/{{orderId}}
+Authorization: Bearer {{token}}
+
+### 15. List orders (paginated, with filters)
+GET {{baseUrl}}/service-orders?status=DELIVERED&page=0&size=10
+Authorization: Bearer {{token}}
+
+### 16. Inventory: stock-in, low stock and movements
+POST {{baseUrl}}/inventory-items/{{filter}}/stock-in
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "quantity": 10, "note": "NF 12345" }
+
+###
+GET {{baseUrl}}/inventory-items/low-stock
+Authorization: Bearer {{token}}
+
+###
+GET {{baseUrl}}/inventory-items/{{filter}}/movements
+Authorization: Bearer {{token}}
+
+### 17. Average execution time report (ADMIN)
+GET {{baseUrl}}/reports/average-execution-time?from=2026-01-01&to=2026-12-31
+Authorization: Bearer {{token}}
+
+### 18. Expected errors
+# 401 without token
+GET {{baseUrl}}/customers
+
+###
+# 409 invalid transition (order already delivered)
+POST {{baseUrl}}/service-orders/{{orderId}}/start-diagnosis
+Authorization: Bearer {{token}}
