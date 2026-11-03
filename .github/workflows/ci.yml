@@ -85,23 +85,27 @@ jobs:
       - name: Build image
         run: docker build -t oficina-mecanica:${{ github.sha }} .
 
+      # Official Trivy image instead of trivy-action: its installer downloads from get.trivy.dev,
+      # which failed to resolve on the runner (curl exit 6)
       - name: Trivy (full report)
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
-        with:
-          image-ref: oficina-mecanica:${{ github.sha }}
-          format: table
-          output: trivy-report.txt
-          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
-          exit-code: "0"
+        run: >
+          docker run --rm
+          -v /var/run/docker.sock:/var/run/docker.sock
+          -v "$HOME/.cache/trivy:/root/.cache/trivy"
+          -v "$PWD:/work" -w /work
+          aquasec/trivy:0.70.0 image
+          --format table --output trivy-report.txt
+          --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0
+          oficina-mecanica:${{ github.sha }}
 
       - name: Trivy (fail on CRITICAL with available fix)
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
-        with:
-          image-ref: oficina-mecanica:${{ github.sha }}
-          format: table
-          severity: CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
+        run: >
+          docker run --rm
+          -v /var/run/docker.sock:/var/run/docker.sock
+          -v "$HOME/.cache/trivy:/root/.cache/trivy"
+          aquasec/trivy:0.70.0 image
+          --format table --severity CRITICAL --ignore-unfixed --exit-code 1
+          oficina-mecanica:${{ github.sha }}
 
       - name: Publish Trivy report
         if: always()
