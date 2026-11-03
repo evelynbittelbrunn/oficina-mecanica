@@ -1,0 +1,19 @@
+﻿docker : 2026-11-02T02:42:05Z	INFO	[vuln] Vulnerability scanning is enabled
+No linha:1 caractere:375
++ ... a-mecanica; docker run --rm -v /var/run/docker.sock:/var/run/docker.s ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-11-02T02:4...ning is enabled:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2026-11-02T02:42:20Z	INFO	Detected OS	family="alpine" version="3.24.3"
+2026-11-02T02:42:20Z	WARN	This OS version is not on the EOL list	family="alpine" version="3.24"
+2026-11-02T02:42:20Z	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=73
+2026-11-02T02:42:20Z	INFO	Number of language-specific files	num=1
+2026-11-02T02:42:20Z	INFO	[jar] Detecting vulnerabilities...
+
+oficina-mecanica:latest (alpine 3.24.3)
+=======================================
+Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+2026-11-02T02:42:20Z	INFO	Some vulnerabilities have been ignored/suppressed. Use the "--show-suppressed" flag to 
+display them.

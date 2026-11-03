@@ -1,0 +1,118 @@
+﻿docker : 2026-11-02T02:34:32Z	INFO	[vuln] Vulnerability scanning is enabled
+No linha:1 caractere:302
++ ... tch {} } }; docker run --rm -v /var/run/docker.sock:/var/run/docker.s ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-11-02T02:3...ning is enabled:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2026-11-02T02:34:53Z	INFO	Detected OS	family="alpine" version="3.24.3"
+2026-11-02T02:34:53Z	WARN	This OS version is not on the EOL list	family="alpine" version="3.24"
+2026-11-02T02:34:53Z	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=73
+2026-11-02T02:34:53Z	INFO	Number of language-specific files	num=1
+2026-11-02T02:34:53Z	INFO	[jar] Detecting vulnerabilities...
+2026-11-02T02:34:53Z	INFO	Table result includes only package filenames. Use '--format json' option to get the full 
+path to the package file.
+
+oficina-mecanica:latest (alpine 3.24.3)
+=======================================
+Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+
+Java (jar)
+==========
+Total: 20 (UNKNOWN: 0, LOW: 0, MEDIUM: 8, HIGH: 6, CRITICAL: 6)
+
+┌──────────────────────────────────────────────────────────────┬─────────────────────┬──────────┬────────┬───────────────────┬───────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│                           Library                            │    Vulnerability    │ Severity │ Status │ Installed Version │         Fixed Version         │                            Title                             │
+├──────────────────────────────────────────────────────────────┼─────────────────────┼──────────┼────────┼───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ com.fasterxml.jackson.core:jackson-core                      │ CVE-2026-89407      │ HIGH     │ fixed  │ 2.21.4            │ 2.18.11, 2.21.7, 2.22.3       │ com.fasterxml.jackson/jackson-core:                          │
+│ (jackson-core-2.21.4.jar)                                    │                     │          │        │                   │                               │ tools.jackson.core/jackson-core: Jackson-core: Denial of     │
+│                                                              │                     │          │        │                   │                               │ Service via regular expression backtracking                  │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-89407                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-89425      │          │        │                   │ 2.21.7, 2.22.3, 2.18.11       │ com.fasterxml.jackson.core/jackson-core: Jackson-core:       │
+│                                                              │                     │          │        │                   │                               │ Denial of Service via unbounded StringBuilder growth during  │
+│                                                              │                     │          │        │                   │                               │ malformed token...                                           │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-89425                   │
+├──────────────────────────────────────────────────────────────┼─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ com.fasterxml.jackson.core:jackson-databind                  │ CVE-2026-68497      │          │        │                   │ 2.18.10, 2.21.6, 2.22.2       │ com.fasterxml.jackson.core/jackson-databind:                 │
+│ (jackson-databind-2.21.4.jar)                                │                     │          │        │                   │                               │ tools.jackson.core/jackson-databind: jackson-databind: CPU   │
+│                                                              │                     │          │        │                   │                               │ Denial of Service via unbounded numeric parsing              │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-68497                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-91776      │          │        │                   │ 2.18.11, 2.21.7, 2.22.3       │ jackson-databind: com.fasterxml.jackson/jackson-core:        │
+│                                                              │                     │          │        │                   │                               │ jackson-databind: Denial of Service via unbounded cache      │
+│                                                              │                     │          │        │                   │                               │ growth in TypeDeserializerBase...                            │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-91776                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-91777      │          │        │                   │ 2.21.7, 2.18.11, 2.22.3       │ com.fasterxml.jackson.core/jackson-databind:                 │
+│                                                              │                     │          │        │                   │                               │ tools.jackson.core:jackson-databind: Jackson-databind:       │
+│                                                              │                     │          │        │                   │                               │ Denial of Service via quadratic forward-reference completion │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-91777                   │
+│                                                              ├─────────────────────┼──────────┤        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-19032      │ MEDIUM   │        │                   │ 2.18.10, 2.21.6, 2.22.2       │ com.fasterxml.jackson.core/jackson-databind:                 │
+│                                                              │                     │          │        │                   │                               │ tools.jackson.core/jackson-databind: Jackson-databind:       │
+│                                                              │                     │          │        │                   │                               │ Uncontrolled URI scheme resolution in Path deserialization   │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-19032                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-54515      │          │        │                   │ 3.1.4, 2.18.9, 2.21.5, 2.22.1 │ jackson-databind: jackson-databind: Ignored properties can   │
+│                                                              │                     │          │        │                   │                               │ be unexpectedly modified                                     │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-54515                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-59889      │          │        │                   │ 2.21.5, 2.18.9, 2.22.1        │ com.fasterxml.jackson.core/jackson-databind:                 │
+│                                                              │                     │          │        │                   │                               │ Jackson-databind: Privilege escalation via improper handling │
+│                                                              │                     │          │        │                   │                               │ of @JsonUnwrapped properties                                 │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-59889                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-77310      │          │        │                   │ 2.18.9, 2.21.5, 2.22.1        │ com.fasterxml.jackson.core/jackson-databind:                 │
+│                                                              │                     │          │        │                   │                               │ jackson-databind: Server-Side Request Forgery and internal   │
+│                                                              │                     │          │        │                   │                               │ host enumeration via eager DNS...                            │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-77310                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-83557      │          │        │                   │ 2.18.10, 2.21.6, 2.22.2       │ com.fasterxml.jackson.core/jackson-databind:                 │
+│                                                              │                     │          │        │                   │                               │ tools.jackson.core/jackson-databind: jackson-databind: Path  │
+│                                                              │                     │          │        │                   │                               │ traversal via incomplete type validation                     │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-83557                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ GHSA-mhm7-754m-9p8w │          │        │                   │ 2.18.9, 2.21.5                │ jackson-databind: `@JsonView` bypass for creator properties  │
+│                                                              │                     │          │        │                   │                               │ with `@JsonTypeInfo(include=As.EXTERNAL_PROPERTY)`           │
+│                                                              │                     │          │        │                   │                               │ https://github.com/advisories/GHSA-mhm7-754m-9p8w            │
+├──────────────────────────────────────────────────────────────┼─────────────────────┤          │        ├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.apache.commons:commons-lang3 (commons-lang3-3.17.0.jar)  │ CVE-2025-48924      │          │        │ 3.17.0            │ 3.18.0                        │ commons-lang/commons-lang: org.apache.commons/commons-lang3: │
+│                                                              │                     │          │        │                   │                               │ Uncontrolled Recursion vulnerability in Apache Commons Lang  │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2025-48924                   │
+├──────────────────────────────────────────────────────────────┼─────────────────────┤          │        ├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.apache.logging.log4j:log4j-api (log4j-api-2.24.3.jar)    │ CVE-2026-49844      │          │        │ 2.24.3            │ 2.25.5, 2.26.1                │ org.apache.logging.log4j/log4j-api: Apache Log4j API:        │
+│                                                              │                     │          │        │                   │                               │ Malformed JSON output due to improper encoding of...         │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-49844                   │
+├──────────────────────────────────────────────────────────────┼─────────────────────┼──────────┤        ├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.apache.tomcat.embed:tomcat-embed-core                    │ CVE-2026-65182      │ CRITICAL │        │ 10.1.55           │ 11.0.25, 10.1.58, 9.0.121     │ tomcat: Apache Tomcat: Security constraint bypass due to     │
+│ (tomcat-embed-core-10.1.55.jar)                              │                     │          │        │                   │                               │ improper access control                                      │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-65182                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-65637      │          │        │                   │ 11.0.25, 10.1.59, 9.0.121     │ tomcat: Apache Tomcat: Improper Input Validation allows      │
+│                                                              │                     │          │        │                   │                               │ HTTP/2 no-authority bypass of strict...                      │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-65637                   │
+│                                                              ├─────────────────────┤          │        │                   ├───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-65905      │          │        │                   │ 11.0.25, 10.1.58, 9.0.121     │ tomcat: Apache Tomcat: Authentication bypass via limited     │
+│                                                              │                     │          │        │                   │                               │ replay attack in DIGEST authenticator...                     │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-65905                   │
+│                                                              ├─────────────────────┤          │        │                   │                               ├──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-68525      │          │        │                   │                               │ tomcat: Apache Tomcat: Unauthorized resource access via FORM │
+│                                                              │                     │          │        │                   │                               │ authentication bypass                                        │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-68525                   │
+├──────────────────────────────────────────────────────────────┼─────────────────────┼──────────┤        ├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.postgresql:postgresql (postgresql-42.7.11.jar)           │ CVE-2026-54291      │ HIGH     │        │ 42.7.11           │ 42.7.12                       │ org.postgresql/postgresql: com.ongres.scram/scram-client:    │
+│                                                              │                     │          │        │                   │                               │ pgjdbc: Man-in-the-middle protection bypass via              │
+│                                                              │                     │          │        │                   │                               │ SCRAM-SHA-256-PLUS downgrade                                 │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-54291                   │
+├──────────────────────────────────────────────────────────────┼─────────────────────┼──────────┤        ├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ org.springframework:spring-webmvc (spring-webmvc-6.2.19.jar) │ CVE-2026-47884      │ CRITICAL │        │ 6.2.19            │ 7.0.9                         │ org.springframework/spring-webmvc: Spring Framework: Remote  │
+│                                                              │                     │          │        │                   │                               │ Code Execution via improper path limitation in XsltView...   │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-47884                   │
+│                                                              ├─────────────────────┤          │        │                   │                               ├──────────────────────────────────────────────────────────────┤
+│                                                              │ CVE-2026-47890      │          │        │                   │                               │ org.springframework/spring-webmvc:                           │
+│                                                              │                     │          │        │                   │                               │ org.springframework/spring-webflux: Spring Framework: Stream │
+│                                                              │                     │          │        │                   │                               │ corruption in Server-Sent Events (SSE) with view...          │
+│                                                              │                     │          │        │                   │                               │ https://avd.aquasec.com/nvd/cve-2026-47890                   │
+└──────────────────────────────────────────────────────────────┴─────────────────────┴──────────┴────────┴───────────────────┴───────────────────────────────┴──────────────────────────────────────────────────────────────┘

@@ -1,0 +1,35 @@
+# Vulnerabilities accepted after triage (see docs/security/vulnerability-analysis.md).
+# No fix on the Spring Boot 3.5 line (required by the Tech Challenge) and the affected component is not
+# used by the application. They expire on 2027-02-01 to force a review; the definitive fix is migrating
+# to Spring Boot 4 / Spring Framework 7 / Spring Security 7.
+
+# Spring Framework 6.2.19: XsltView, SSE, WebFlux, RSocket, user-supplied SpEL, views, UrlHandlerFilter,
+# UrlFileNameViewController, Content-Disposition and DataBinder of user-supplied paths (not used)
+CVE-2026-47883 exp:2027-02-01
+CVE-2026-47884 exp:2027-02-01
+CVE-2026-47885 exp:2027-02-01
+CVE-2026-47886 exp:2027-02-01
+CVE-2026-47887 exp:2027-02-01
+CVE-2026-47888 exp:2027-02-01
+CVE-2026-47889 exp:2027-02-01
+CVE-2026-47890 exp:2027-02-01
+CVE-2026-47891 exp:2027-02-01
+CVE-2026-47892 exp:2027-02-01
+CVE-2026-47893 exp:2027-02-01
+CVE-2026-59280 exp:2027-02-01
+CVE-2026-59281 exp:2027-02-01
+CVE-2026-59282 exp:2027-02-01
+CVE-2026-59283 exp:2027-02-01
+CVE-2026-59313 exp:2027-02-01
+CVE-2026-59314 exp:2027-02-01
+
+# Spring Security 6.5.11: embedded LDAP, DPoP, WebAuthn, AesBytesEncryptor (not used);
+# non-constant-time comparison (residual risk accepted: BCrypt + HMAC JWT, no CSRF/session)
+CVE-2026-59270 exp:2027-02-01
+CVE-2026-41707 exp:2027-02-01
+CVE-2026-47841 exp:2027-02-01
+CVE-2026-47842 exp:2027-02-01
+CVE-2026-59276 exp:2027-02-01
+
+# Spring Data JPA 3.5.13: Sort from untrusted input (the application only uses fixed Sorts)
+CVE-2026-47834 exp:2027-02-01
