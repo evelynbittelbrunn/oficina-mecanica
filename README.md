@@ -5,8 +5,8 @@ The system covers the full service flow of a vehicle: **opening the service orde
 customer approval, execution and delivery**, plus customer and vehicle registration, the service
 catalog and the parts and supplies inventory.
 
-- **DDD / Event Storming board (Miro):** _[board link](https://miro.com/app/board/PLACEHOLDER)_
-- **Demo video:** _[video link](https://youtu.be/PLACEHOLDER)_
+- **DDD / Event Storming board (Miro):** _[board link](https://miro.com/app/board/uXjVESMw7ZY=/)_
+- **Demo video:** _[video link](https://youtu.be/CXNwZxYv59E)_
 
 > The code (packages, classes, endpoints, JSON fields and database) is in English. Messages returned
 > to API users are in Portuguese, since the shop and its customers are Brazilian.
